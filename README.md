@@ -1,68 +1,64 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Exemplo de utilização do Redux #
 
-## Available Scripts
+Executei o comando:
 
-In the project directory, you can run:
+npx create-react-app .
 
-### `yarn start`
+Instalei o redux e o react-redux
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+npm i redux react-redux --save
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## Configuração do Redux ##
 
-### `yarn test`
+### Store ###
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Onde fica armazenado o estado global da aplicação
 
-### `yarn build`
+Foi criada uma pasta store dentro de src.
+Nesta pasta serão adicionados todos os stores da aplicação.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### Função reducer ####
+A função reducer retorna o próximo estado da aplicação, tendo como parâmetros o estado atual e a ação que deverá ser executada. Atualizando assim o estado.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+informa o estado inicial da aplicação
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+##### Combine Reducers #####
 
-### `yarn eject`
+Para uma melhor organização é interessante a criação de reducers para os demais módulos da aplicação.
+Para fazer a junção dos reducer existe a função combineReducers do redux.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+O combine reducer é exportado passando como parâmetro um objeto com todos os reducers.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+##### Actions #####
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Podem ser definidas tanto no componente quanto em um arquivo externo.
+Retorna um objeto no formato:
+```
+{
+    type: 'EXEMPLO_DE_NOME_DE_ACTION',
+    dado1,
+    dado2,
+}
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+#### bindActionCreators ####
 
-## Learn More
+Faz a ligação das actions.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Provider ###
+Foi importado na App o Provider do react-redux e o store criado.
+O Provider recebe na propriedade store o store que foi criado.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Connect ###
+Todos os componentes que precisarão de informações do estado global deveram importar o connect do react-redux.
+O connect é usado para compartilhar uma informação, nesse caso estaremos compartilhando o estado.
 
-### Code Splitting
+Os componentes passam a exportar o retorno do connect.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+O conect recebe como parâmetro uma função que recebe o estado e retorna as propriedades desejadas do estado pelo component.
 
-### Analyzing the Bundle Size
+Com isso, o componente passa a receber como parâmetro os dados requisitados no parâmetro do connect e uma função dispatch, que será usada para enviar as ações.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+A partir desse momento, todas as informações, antes mantidas no estado do componente, passam a vir do estado do redux.
 
-### Making a Progressive Web App
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
